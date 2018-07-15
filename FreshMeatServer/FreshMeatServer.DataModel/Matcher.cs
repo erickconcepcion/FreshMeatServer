@@ -16,7 +16,7 @@ namespace FreshMeatServer.DataModel
         }
         [Key]
         public Guid Id { get; set; }
-
+        public MatcherStatus Status { get; set; }
         public ICollection<Inventory> Inventories { get; set; }
 
         public ICollection<Status> Statuses { get; set; }

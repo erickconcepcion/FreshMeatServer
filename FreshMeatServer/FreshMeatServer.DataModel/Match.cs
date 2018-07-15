@@ -15,7 +15,7 @@ namespace FreshMeatServer.DataModel
         }
         [Key]
         public Guid Id { get; set; }
-
+        public MatchStatus Status { get; set; }
         [ForeignKey("Master")]
         public Guid MasterId { get; set; }
         public Master Master { get; set; }
