@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180715172510_initial.cs" />
+    <Compile Remove="Migrations\20180715180437_initial.cs" />
+    <Compile Remove="Migrations\20180715203412_initial.cs" />
+    <Compile Remove="Migrations\20180715203948_initial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
   </ItemGroup>
 
