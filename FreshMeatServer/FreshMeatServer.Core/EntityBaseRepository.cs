@@ -15,12 +15,10 @@ namespace FreshMeatServer.Core
     {
         private DbContext _context;
         private DbSet<T> _set;
-        private IValidator<T> Validator;
         
 
-        public EntityBaseRepository(DbContext context, IValidator<T> validator)
+        public EntityBaseRepository(DbContext context)
         {
-            Validator = validator;
             _context = context;
             _set = context.Set<T>();
         }
@@ -45,13 +43,12 @@ namespace FreshMeatServer.Core
             string orderBy,
             params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> query = _set;//.Where(x => x.Deleted == false);
+            IQueryable<T> query = _set;
 
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
-            //
             var predicateQuery = PredicateBuilder.New<T>(true);
 
             if (!string.IsNullOrEmpty(searchPredicate))
@@ -71,19 +68,14 @@ namespace FreshMeatServer.Core
 
         private IQueryable<T> GetAll(Expression<Func<T, bool>> filter = null, string includeProperties = "", bool includeDeleted = false)
         {
-            IQueryable<T> query = (includeDeleted) ? _set.AsQueryable() : _set.AsQueryable();//.Where(x => x.Deleted == false).AsQueryable();
-
-
+            IQueryable<T> query = (includeDeleted) ? _set.AsQueryable() : _set.AsQueryable();
             query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                      .Aggregate(query, (current, includeProperty) =>
                                                        current.Include(includeProperty));
 
             if (filter == null)
                 filter = PredicateBuilder.New<T>(true);
-
-            //filter.And(a => a.Deleted);
-            //// Solo registros Reales
-
+            
             if (filter != null)
             {
                 query = query.AsExpandable().Where(filter);
@@ -102,7 +94,7 @@ namespace FreshMeatServer.Core
 
         public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> query = _set;//.Where(x => x.Deleted == false);
+            IQueryable<T> query = _set;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -122,12 +114,12 @@ namespace FreshMeatServer.Core
 
         public T Find(Expression<Func<T, bool>> predicate)
         {
-            return _set.AsNoTracking().FirstOrDefault(predicate);//.Where(x => x.Deleted == false).FirstOrDefault(predicate);
+            return _set.AsNoTracking().FirstOrDefault(predicate);
         }
 
         public T Find(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> query = _set;//.Where(x => x.Deleted == false);
+            IQueryable<T> query = _set;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -138,107 +130,40 @@ namespace FreshMeatServer.Core
         
         public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
-            return _set.Where(predicate);//.Where(x => x.Deleted == false).Where(predicate);
+            return _set.Where(predicate);
         }
 
-
-        public virtual EntityActionResult Add(T entity)
+        public virtual T Add(T entity)
         {
             if (entity.Id == Guid.Empty)
             {
                 entity.Id = Guid.NewGuid();
             }
-
-            /*Guid user = new Guid("ABC12300-0000-0000-0000-000000000000");
-
-            PropertyInfo prop = entity.GetType().GetProperty("ModifiedDate");
-            if (prop != null)
-            {
-                prop.SetValue(entity, DateTimeOffset.Now);
-            }
-
-            PropertyInfo prop1 = entity.GetType().GetProperty("CreatedDate");
-            if (prop1 != null)
-            {
-                prop1.SetValue(entity, DateTimeOffset.Now);
-            }
-
-            PropertyInfo prop2 = entity.GetType().GetProperty("CreatedBy");
-
-            if (prop2 != null)
-            {
-                prop2.SetValue(entity, user);
-            }
-
-            PropertyInfo prop3 = entity.GetType().GetProperty("ModifiedBy");
-
-            if (prop3 != null)
-            {
-                prop3.SetValue(entity, user);
-            }*/
-
-            var results = Validator.Validate(entity);
-            if (results.IsValid)
-            {
-
-
-                _set.Add(entity);
-                return new EntityActionResult() { ErrorCode = 0, Success = true, Id = entity.Id };
-            }
-            var errosMsg = results.Errors.Select(e=>e.ErrorMessage);
-            return new EntityActionResult() { ErrorCode = 500, Success = false, Messages = errosMsg };
+            _set.Add(entity);
+            return entity;
         }
 
-        public virtual EntityActionResult Update(T entity)
+        public virtual T Update(T entity)
         {
             EntityEntry dbEntityEntry = _context.Entry(entity);
-
-            Guid user = Guid.Empty;
-            PropertyInfo prop = entity.GetType().GetProperty("ModifiedDate");
-            if (prop != null)
-            {
-                prop.SetValue(entity, DateTimeOffset.Now);
-            }
-
-            PropertyInfo prop1 = entity.GetType().GetProperty("ModifiedBy");
-
-            if (prop1 != null)
-            {
-                prop1.SetValue(entity, user);
-            }
-
-            var results = Validator.Validate(entity);
-            if (results.IsValid)
-            {
-                dbEntityEntry.State = EntityState.Modified;
-                return new EntityActionResult() { ErrorCode = 0, Success = true, Id = entity.Id };
-            }
-            var errosMsg = results.Errors.Select(e => e.ErrorMessage);
-            return new EntityActionResult() { ErrorCode = 500, Success = false, Messages = errosMsg };
-        }
-
-        public virtual EntityActionResult Remove(T entity)
-        {
-            EntityEntry dbEntityEntry = _context.Entry(entity);
-
-
             dbEntityEntry.State = EntityState.Modified;
-            //entity.Deleted = true;
-            
-            return new EntityActionResult() { ErrorCode = 0, Success = true, Id = entity.Id };
+            return entity;
+        }
+
+        public virtual void Remove(T entity)
+        {
+            EntityEntry dbEntityEntry = _context.Entry(entity);
+            dbEntityEntry.State = EntityState.Deleted;
             
         }
 
-        public virtual IEnumerable<EntityActionResult> RemoveWhereDelete(Expression<Func<T, bool>> predicate)
+        public virtual void RemoveWhereDelete(Expression<Func<T, bool>> predicate)
         {
             IEnumerable<T> entities = _set.Where(predicate);
-            List<EntityActionResult> results = new List<EntityActionResult>();
             foreach (var entity in entities)
             {
                 Remove(entity);
-                results.Add(new EntityActionResult() { ErrorCode = 0, Success = true, Id = entity.Id });
             }
-            return results;
         }
 
 

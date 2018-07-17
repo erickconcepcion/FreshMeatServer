@@ -11,30 +11,21 @@ namespace FreshMeatServer.Core
     [Route("api/[controller]")]
     public class EntityBaseApiController<T, VM> : Controller where T : class, IEntityBase, new() where VM : class, IViewModel, new()
     {
-        public readonly IEntityBaseRepository<T> Db;
+        public readonly IEntityBaseService<T> Service;
         public readonly string IncludedProperties;
 
-        public EntityBaseApiController(IEntityBaseRepository<T> db, string includedProps = "")
+        public EntityBaseApiController(IEntityBaseService<T> service, string includedProps = "")
         {
-            Db = db;
+            Service = service;
             IncludedProperties = includedProps;
         }
 
-        /*[HttpGet]
-        public IActionResult GetAll()
-        {
-
-            var models = Db.Get();
-
-            var result = Mapper.Map<IEnumerable<VM>>(models);
-            return Ok(result.ToList());
-        }*/
-
+        
         [HttpGet]
         public virtual IActionResult GetAllInclude(bool included = false)
         {
 
-            var models = included ? Db.GetIncluding(IncludedProperties) : Db.Get();
+            var models = included ? Service.GetIncluding(IncludedProperties) : Service.Get();
 
             var result = Mapper.Map<IEnumerable<VM>>(models);
             return Ok(result.ToList());
@@ -44,7 +35,7 @@ namespace FreshMeatServer.Core
         public virtual IActionResult Get(Guid id, bool included = false)
         {
 
-            var model = included ? Db.Find(id, IncludedProperties) : Db.Find(id);
+            var model = included ? Service.Find(id, IncludedProperties) : Service.Find(id);
             var vm = Mapper.Map<VM>(model); ;
             return Ok(vm);
         }
@@ -67,9 +58,9 @@ namespace FreshMeatServer.Core
             {
                 return BadRequest(e.Message);
             }
-            Db.Add(model);
+            Service.Add(model);
 
-            if (!Db.Save())
+            if (!Service.Save())
                 return StatusCode(500, "Something was wrong on server");
 
 
@@ -92,7 +83,7 @@ namespace FreshMeatServer.Core
             }
 
 
-            var find = Db.Find(id);
+            var find = Service.Find(id);
             if (find == null)
             {
                 return NotFound();
@@ -108,9 +99,9 @@ namespace FreshMeatServer.Core
                 return BadRequest(e.Message);
             }
             
-            Db.Update(model);
+            Service.Update(model);
 
-            if (!Db.Save())
+            if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");
             }
@@ -127,7 +118,7 @@ namespace FreshMeatServer.Core
                 return BadRequest();
             }
 
-            var find = Db.Find(id);
+            var find = Service.Find(id);
 
             if (find == null)
             {
@@ -145,9 +136,9 @@ namespace FreshMeatServer.Core
 
             var model = Mapper.Map<T>(toPatch);
 
-            Db.Update(model);
+            Service.Update(model);
 
-            if (!Db.Save())
+            if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");
             }
@@ -159,15 +150,15 @@ namespace FreshMeatServer.Core
         [HttpDelete("{id}")]
         public virtual IActionResult Delete(Guid id)
         {
-            var find = Db.Find(id);
+            var find = Service.Find(id);
             if (find == null)
             {
                 return NotFound();
             }
 
-            Db.Delete(find);
+            Service.Delete(find);
 
-            if (!Db.Save())
+            if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");
             }

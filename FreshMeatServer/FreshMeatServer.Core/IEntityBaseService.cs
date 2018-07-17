@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FreshMeatServer.Core
 {
-    public interface IEntityBaseRepository<T> where T : class, IEntityBase, new()
+    public interface IEntityBaseService<T> where T : class, IEntityBase, new()
     {
         IEnumerable<T> Get();
         IEnumerable<T> GetIncluding(string includedProps);
@@ -22,12 +22,12 @@ namespace FreshMeatServer.Core
         T Find(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         T Find(Guid id, string includedProps);
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
-        T Add(T value);
-        T Update(T value);
-        void Remove(T value);
-        void RemoveCollection(IEnumerable<T> entities);
-        void RemoveWhereDelete(Expression<Func<T, bool>> predicate);
+        EntityActionResult Add(T value);
+        EntityActionResult Update(T value);
+        EntityActionResult Remove(T value);
+        IEnumerable<EntityActionResult> RemoveWhereDelete(Expression<Func<T, bool>> predicate);
         void RemoveWhere(Expression<Func<T, bool>> predicate);
+        void RemoveCollection(IEnumerable<T> entities);
         int Count(Expression<Func<T, bool>> predicate);
         void Delete(T entity);
         void DeleteRange(IEnumerable<T> entities);
