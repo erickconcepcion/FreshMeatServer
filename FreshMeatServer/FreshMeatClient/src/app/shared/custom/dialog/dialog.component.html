@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>  
+    <form (ngSubmit)="sendData()" [formGroup]="formGroup">
+      <dynamic-material-form [group]="formGroup" [model]="data.formModel"
+        (matEvent)="onMatEvent($event)">
+      </dynamic-material-form>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Gracias</button>
+  <button mat-button (click)="sendData()" cdkFocusInitial  [disabled]="!formGroup.valid">Aceptar</button>
+</div>

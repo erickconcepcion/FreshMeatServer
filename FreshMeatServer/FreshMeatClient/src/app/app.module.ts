@@ -24,17 +24,17 @@ import { SpinnerComponent } from './shared/spinner.component';
     FullComponent,
     AppHeaderComponent,
     SpinnerComponent,
-    AppSidebarComponent  
+    AppSidebarComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
     FormsModule,
-    FlexLayoutModule,  
+    FlexLayoutModule,
     HttpClientModule,
-    SharedModule,  
-    RouterModule.forRoot(AppRoutes)  
+    SharedModule,
+    RouterModule.forRoot(AppRoutes)
   ],
   providers: [
   {
