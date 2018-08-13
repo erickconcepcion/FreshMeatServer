@@ -1,10 +1,24 @@
-﻿using System;
+﻿using FluentValidation;
+using FreshMeatServer.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FreshMeatServer.Logics.Validators
 {
-    class ChildAttributeSelectionValidator
+    public class ChildAttributeSelectionValidator : AbstractValidator<ChildAttributeSelection>
     {
+        public ChildAttributeSelectionValidator()
+        {
+            RuleFor(p => p.Level)
+                .NotNull();
+
+            RuleFor(p => p.ChildAttributeId)
+                .NotEmpty();
+
+            RuleFor(p => p.ParentAttributeSelectionId)
+                .NotEmpty();
+        }
+        
     }
 }

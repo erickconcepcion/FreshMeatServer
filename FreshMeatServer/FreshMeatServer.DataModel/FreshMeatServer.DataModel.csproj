@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FreshMeatServer.Common\FreshMeatServer.Common.csproj" />
     <ProjectReference Include="..\FreshMeatServer.Core\FreshMeatServer.Core.csproj" />
   </ItemGroup>
 

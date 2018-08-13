@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshMeatServer", "FreshMeatServer\FreshMeatServer.csproj", "{6D938D82-D09C-4AEB-A05F-86D2C906F2FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreshMeatServer", "FreshMeatServer\FreshMeatServer.csproj", "{6D938D82-D09C-4AEB-A05F-86D2C906F2FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshMeatServer.DataModel", "FreshMeatServer.DataModel\FreshMeatServer.DataModel.csproj", "{5888D14C-D734-4916-9CA8-54F4DD88AB9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreshMeatServer.DataModel", "FreshMeatServer.DataModel\FreshMeatServer.DataModel.csproj", "{5888D14C-D734-4916-9CA8-54F4DD88AB9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshMeatServer.Logics", "FreshMeatServer.Logics\FreshMeatServer.Logics.csproj", "{EB9F3AEE-F0C0-4F7A-80C4-240810EEED30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreshMeatServer.Logics", "FreshMeatServer.Logics\FreshMeatServer.Logics.csproj", "{EB9F3AEE-F0C0-4F7A-80C4-240810EEED30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshMeatServer.Core", "FreshMeatServer.Core\FreshMeatServer.Core.csproj", "{773B6C51-C326-4339-8BD7-8159C6D5FF12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreshMeatServer.Core", "FreshMeatServer.Core\FreshMeatServer.Core.csproj", "{773B6C51-C326-4339-8BD7-8159C6D5FF12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshMeatServer.Common", "FreshMeatServer.Common\FreshMeatServer.Common.csproj", "{CA63A7FB-3015-424A-A5A9-0C8F20298906}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{773B6C51-C326-4339-8BD7-8159C6D5FF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{773B6C51-C326-4339-8BD7-8159C6D5FF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{773B6C51-C326-4339-8BD7-8159C6D5FF12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA63A7FB-3015-424A-A5A9-0C8F20298906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA63A7FB-3015-424A-A5A9-0C8F20298906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA63A7FB-3015-424A-A5A9-0C8F20298906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA63A7FB-3015-424A-A5A9-0C8F20298906}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using FreshMeatServer.Core;
+﻿using FreshMeatServer.Common;
+using FreshMeatServer.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
