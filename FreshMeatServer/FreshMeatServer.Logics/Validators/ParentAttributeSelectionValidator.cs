@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FreshMeatServer.Logics.Validators
+namespace FreshMeatServer.Logics
 {
     public class ParentAttributeSelectionValidator : AbstractValidator<ParentAttributeSelectionVm>
     {
