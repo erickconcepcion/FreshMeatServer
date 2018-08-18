@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FreshMeatServer.DataModel\FreshMeatServer.DataModel.csproj" />
+    <ProjectReference Include="..\FreshMeatServer.Logics\FreshMeatServer.Logics.csproj" />
   </ItemGroup>
 
   <ItemGroup>

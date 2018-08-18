@@ -22,20 +22,21 @@ namespace FreshMeatServer.Core
 
         
         [HttpGet]
-        public virtual IActionResult GetAllInclude(bool included = false)
+        public virtual IActionResult GetAllInclude(bool included = false, string properties = null)
         {
-
-            var models = included ? Service.GetIncluding(IncludedProperties) : Service.Get();
+            var props = properties != null ? properties : IncludedProperties;
+            var models = included ? Service.GetIncluding(props) : Service.Get();
 
             var result = Mapper.Map<IEnumerable<VM>>(models);
             return Ok(result.ToList());
         }
 
         [HttpGet("{id}")]
-        public virtual IActionResult Get(Guid id, bool included = false)
+        public virtual IActionResult Get(Guid id, bool included = false, string properties = null)
         {
 
-            var model = included ? Service.Find(id, IncludedProperties) : Service.Find(id);
+            var props = properties != null ? properties : IncludedProperties;
+            var model = included ? Service.Find(id, props) : Service.Find(id);
             var vm = Mapper.Map<VM>(model); ;
             return Ok(vm);
         }

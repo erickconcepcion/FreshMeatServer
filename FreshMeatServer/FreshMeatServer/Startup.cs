@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FreshMeatServer.Models;
 using FreshMeatServer.Services;
 using FreshMeatServer.DataModel;
+using AutoMapper;
 
 namespace FreshMeatServer
 {
@@ -56,7 +57,7 @@ namespace FreshMeatServer
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+            Mapper.Initialize(map => { map.AddProfile<FreshMeatServerMappings>(); });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
