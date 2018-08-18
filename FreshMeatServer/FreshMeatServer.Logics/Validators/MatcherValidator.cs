@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FreshMeatServer.Logics.Validators
 {
-    public class MatcherValidator : AbstractValidator<Matcher>
+    public class MatcherValidator : AbstractValidator<MatcherVm>
     {
         public MatcherValidator()
         {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FreshMeatServer.Logics.Validators
 {
-    public class ItemValidator : AbstractValidator<Item>
+    public class ItemValidator : AbstractValidator<ItemVm>
     {
         public ItemValidator()
         {

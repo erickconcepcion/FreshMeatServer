@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FreshMeatServer.Logics.Validators
 {
-    public class CharacterValidator: AbstractValidator<Character>
+    public class CharacterValidator: AbstractValidator<CharacterVm>
     {
         public CharacterValidator()
         {

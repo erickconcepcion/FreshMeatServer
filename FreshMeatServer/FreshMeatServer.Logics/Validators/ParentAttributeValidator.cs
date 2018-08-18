@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FreshMeatServer.Logics.Validators
 {
-    public class ParentAttributeValidator : AbstractValidator<ParentAttribute>
+    public class ParentAttributeValidator : AbstractValidator<ParentAttributeVm>
     {
         public ParentAttributeValidator()
         {
