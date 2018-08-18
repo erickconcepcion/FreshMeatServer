@@ -13,6 +13,8 @@ namespace FreshMeatServer
         public override string ProfileName => "FreshMeatServerMappings";
         public FreshMeatServerMappings()
         {
+            CreateMap<ApplicationUser, ApplicationUserVm>()
+                .ReverseMap();
             CreateMap<Character, CharacterVm>()
                 .ReverseMap();
             CreateMap<ChildAttribute, ChildAttributeVm>()

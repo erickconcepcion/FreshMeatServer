@@ -13,6 +13,12 @@ using Microsoft.Extensions.Options;
 using FreshMeatServer.Models.AccountViewModels;
 using FreshMeatServer.Services;
 using FreshMeatServer.DataModel;
+using FreshMeatServer.Auth;
+using FreshMeatServer.Models;
+using FreshMeatServer.Helpers;
+using Newtonsoft.Json;
+using AutoMapper;
+using FreshMeatServer.Logics;
 
 namespace FreshMeatServer.Controllers
 {
@@ -24,17 +30,26 @@ namespace FreshMeatServer.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly JwtIssuerOptions _jwtOptions;
+        private readonly IMapper _mapper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IJwtFactory jwtFactory,
+            IOptions<JwtIssuerOptions> jwtOptions,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _jwtFactory = jwtFactory;
+            _jwtOptions = jwtOptions.Value;
+            _mapper = mapper;
         }
 
         [TempData]
@@ -85,6 +100,49 @@ namespace FreshMeatServer.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginApi([FromBody]LoginViewModel credentials)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var identity = await GetClaimsIdentity(credentials.Email, credentials.Password);
+            if (identity == null)
+            {
+
+                return BadRequest(Errors.AddErrorToModelState("acceso_fallido", "Username or Password invalid", ModelState));
+            }
+            var user = await _userManager.FindByIdAsync(identity.Claims.Single(c => c.Type == "id").Value);
+            
+            var uservm = _mapper.Map<ApplicationUser, ApplicationUserVm>(user);
+            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }, uservm);
+
+            return new OkObjectResult(jwt);
+        }
+
+        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
+        {
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+                return await Task.FromResult<ClaimsIdentity>(null);
+
+            // get the user to verifty
+            var userToVerify = await _userManager.FindByNameAsync(userName);
+
+            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+
+            // check the credentials
+            if (await _userManager.CheckPasswordAsync(userToVerify, password))
+            {
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+            }
+
+            // Credentials are invalid, or account doesn't exist
+            return await Task.FromResult<ClaimsIdentity>(null);
         }
 
         [HttpGet]
@@ -220,7 +278,7 @@ namespace FreshMeatServer.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -239,6 +297,33 @@ namespace FreshMeatServer.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterApi([FromBody]RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation("User created a new account with password.");
+                    return Ok("Account Created");
+                }
+                AddErrors(result);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpPost]

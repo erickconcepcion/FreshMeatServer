@@ -8,7 +8,7 @@ namespace FreshMeatServer.Logics
 {
     class CharacterRepository: EntityBaseRepository<Character>, ICharacterRepository
     {
-        public CharacterService(ApplicationDbContext context): base(context)
+        public CharacterRepository(ApplicationDbContext context): base(context)
         {
 
         }
