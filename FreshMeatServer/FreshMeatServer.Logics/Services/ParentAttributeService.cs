@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class ParentAttributeService : EntityBaseService<ParentAttribute>, IParentAttributeService
+    public class ParentAttributeService : EntityBaseService<ParentAttribute>, IParentAttributeService
     {
         public ParentAttributeService(IValidator<ParentAttribute> validator, IParentAttributeRepository repo) : base(validator, repo)
         {

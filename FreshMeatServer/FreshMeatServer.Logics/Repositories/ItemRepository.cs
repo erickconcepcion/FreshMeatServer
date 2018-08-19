@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class ItemRepository : EntityBaseRepository<Item>, IItemRepository
+    public class ItemRepository : EntityBaseRepository<Item>, IItemRepository
     {
         public ItemRepository(ApplicationDbContext context) : base(context)
         {

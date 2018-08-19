@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class StatusService : EntityBaseService<Status>, IStatusService
+    public class StatusService : EntityBaseService<Status>, IStatusService
     {
         public StatusService(IValidator<Status> validator, IStatusRepository repo) : base(validator, repo)
         {

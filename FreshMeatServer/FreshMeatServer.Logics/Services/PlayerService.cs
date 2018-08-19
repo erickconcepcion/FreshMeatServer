@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class PlayerService : EntityBaseService<Player>, IPlayerService
+    public class PlayerService : EntityBaseService<Player>, IPlayerService
     {
         public PlayerService(IValidator<Player> validator, IPlayerRepository repo) : base(validator, repo)
         {

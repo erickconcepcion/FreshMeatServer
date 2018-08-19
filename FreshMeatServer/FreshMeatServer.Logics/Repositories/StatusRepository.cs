@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class StatusRepository : EntityBaseRepository<Status>, IStatusRepository
+    public class StatusRepository : EntityBaseRepository<Status>, IStatusRepository
     {
         public StatusRepository(ApplicationDbContext context) : base(context)
         {

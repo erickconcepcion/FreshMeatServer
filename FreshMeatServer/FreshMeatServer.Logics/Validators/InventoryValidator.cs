@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FreshMeatServer.Logics
+namespace FreshMeatServer.Logics.Validators
 {
-    public class InventoryValidator : AbstractValidator<InventoryVm>
+    public class InventoryValidator : AbstractValidator<Inventory>
     {
         public InventoryValidator()
         {

@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class MasterService : EntityBaseService<Master>, IMasterService
+    public class MasterService : EntityBaseService<Master>, IMasterService
     {
         public MasterService(IValidator<Master> validator, IMasterRepository repo) : base(validator, repo)
         {

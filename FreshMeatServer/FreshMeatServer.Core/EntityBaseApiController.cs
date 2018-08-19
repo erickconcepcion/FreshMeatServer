@@ -13,10 +13,12 @@ namespace FreshMeatServer.Core
     {
         public readonly IEntityBaseService<T> Service;
         public readonly string IncludedProperties;
+        public readonly IMapper _mapper;
 
-        public EntityBaseApiController(IEntityBaseService<T> service, string includedProps = "")
+        public EntityBaseApiController(IEntityBaseService<T> service, IMapper mapper, string includedProps = "")
         {
             Service = service;
+            _mapper = mapper;
             IncludedProperties = includedProps;
         }
 
@@ -27,7 +29,7 @@ namespace FreshMeatServer.Core
             var props = properties != null ? properties : IncludedProperties;
             var models = included ? Service.GetIncluding(props) : Service.Get();
 
-            var result = Mapper.Map<IEnumerable<VM>>(models);
+            var result = _mapper.Map<IEnumerable<VM>>(models);
             return Ok(result.ToList());
         }
 
@@ -37,7 +39,7 @@ namespace FreshMeatServer.Core
 
             var props = properties != null ? properties : IncludedProperties;
             var model = included ? Service.Find(id, props) : Service.Find(id);
-            var vm = Mapper.Map<VM>(model); ;
+            var vm = _mapper.Map<VM>(model); ;
             return Ok(vm);
         }
         
@@ -53,14 +55,17 @@ namespace FreshMeatServer.Core
             T model;
             try
             {
-                model = Mapper.Map<T>(vm);
+                model = _mapper.Map<T>(vm);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            Service.Add(model);
-
+            var result = Service.Add(model);
+            if (!result.Success)
+            {
+                return BadRequest(result.Messages);
+            }
             if (!Service.Save())
                 return StatusCode(500, "Something was wrong on server");
 
@@ -93,15 +98,18 @@ namespace FreshMeatServer.Core
             T model;
             try
             {
-                model = Mapper.Map<T>(vm);
+                model = _mapper.Map<T>(vm);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
             
-            Service.Update(model);
-
+            var result = Service.Update(model);
+            if (!result.Success)
+            {
+                BadRequest(result.Messages);
+            }
             if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");
@@ -126,7 +134,7 @@ namespace FreshMeatServer.Core
                 return NotFound();
             }
 
-            var toPatch = Mapper.Map<VM>(find);
+            var toPatch = _mapper.Map<VM>(find);
 
             vm.ApplyTo(toPatch, ModelState);
 
@@ -135,10 +143,13 @@ namespace FreshMeatServer.Core
                 return BadRequest(ModelState);
             }
 
-            var model = Mapper.Map<T>(toPatch);
+            var model = _mapper.Map<T>(toPatch);
 
-            Service.Update(model);
-
+            var result = Service.Update(model);
+            if (!result.Success)
+            {
+                BadRequest(result.Messages);
+            }
             if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");
@@ -158,7 +169,7 @@ namespace FreshMeatServer.Core
             }
 
             Service.Delete(find);
-
+            
             if (!Service.Save())
             {
                 return StatusCode(500, "Something was wrong on server");

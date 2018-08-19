@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FreshMeatServer.Logics
+namespace FreshMeatServer.Logics.Validators
 {
-    public class CharacterValidator: AbstractValidator<CharacterVm>
+    public class CharacterValidator: AbstractValidator<Character>
     {
         public CharacterValidator()
         {

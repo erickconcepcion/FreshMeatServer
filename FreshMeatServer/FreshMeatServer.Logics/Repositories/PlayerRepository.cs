@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class PlayerRepository : EntityBaseRepository<Player>, IPlayerRepository
+    public class PlayerRepository : EntityBaseRepository<Player>, IPlayerRepository
     {
         public PlayerRepository(ApplicationDbContext context) : base(context)
         {

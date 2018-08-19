@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class InventoryRepository : EntityBaseRepository<Inventory>, IInventoryRepository
+    public class InventoryRepository : EntityBaseRepository<Inventory>, IInventoryRepository
     {
         public InventoryRepository(ApplicationDbContext context) : base(context)
         {

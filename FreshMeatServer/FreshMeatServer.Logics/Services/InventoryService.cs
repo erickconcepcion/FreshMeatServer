@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class InventoryService : EntityBaseService<Inventory>, IInventoryService
+    public class InventoryService : EntityBaseService<Inventory>, IInventoryService
     {
         public InventoryService(IValidator<Inventory> validator, IInventoryRepository repo) : base(validator, repo)
         {

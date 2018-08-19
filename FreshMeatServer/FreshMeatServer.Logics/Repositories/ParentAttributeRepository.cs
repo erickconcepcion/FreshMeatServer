@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class ParentAttributeRepository : EntityBaseRepository<ParentAttribute>, IParentAttributeRepository
+    public class ParentAttributeRepository : EntityBaseRepository<ParentAttribute>, IParentAttributeRepository
     {
         public ParentAttributeRepository(ApplicationDbContext context) : base(context)
         {

@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class MatchService : EntityBaseService<Match>, IMatchService
+    public class MatchService : EntityBaseService<Match>, IMatchService
     {
         public MatchService(IValidator<Match> validator, IMatchRepository repo) : base(validator, repo)
         {

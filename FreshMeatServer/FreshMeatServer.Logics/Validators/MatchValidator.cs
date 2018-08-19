@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FreshMeatServer.Logics
+namespace FreshMeatServer.Logics.Validators
 {
-    public class MatchValidator : AbstractValidator<MatchVm>
+    public class MatchValidator : AbstractValidator<Match>
     {
         public MatchValidator()
         {

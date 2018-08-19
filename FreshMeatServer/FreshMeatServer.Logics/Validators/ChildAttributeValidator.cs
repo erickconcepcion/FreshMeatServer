@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FreshMeatServer.Logics
+namespace FreshMeatServer.Logics.Validators
 {
-    public class ChildAttributeValidator : AbstractValidator<ChildAttributeVm>
+    public class ChildAttributeValidator : AbstractValidator<ChildAttribute>
     {
         public ChildAttributeValidator()
         {
@@ -14,7 +14,7 @@ namespace FreshMeatServer.Logics
                 .NotEmpty();
 
             RuleFor(p => p.AttributeName)
-                .MaximumLength(1)
+                .MinimumLength(1)
                 .MaximumLength(100);
 
             RuleFor(p => p.ParentAttributeId)

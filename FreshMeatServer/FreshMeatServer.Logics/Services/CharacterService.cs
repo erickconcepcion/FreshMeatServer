@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class CharacterService: EntityBaseService<Character>, ICharacterService
+    public class CharacterService : EntityBaseService<Character>, ICharacterService
     {
         public CharacterService(IValidator<Character> validator, ICharacterRepository repo): base(validator, repo)
         {

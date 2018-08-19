@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FreshMeatServer.Logics
+namespace FreshMeatServer.Logics.Validators
 {
-    public class PlayerValidator : AbstractValidator<PlayerVm>
+    public class PlayerValidator : AbstractValidator<Player>
     {
         public PlayerValidator()
         {

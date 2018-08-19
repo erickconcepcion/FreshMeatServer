@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class MatcherRepository : EntityBaseRepository<Matcher>, IMatcherRepository
+    public class MatcherRepository : EntityBaseRepository<Matcher>, IMatcherRepository
     {
         public MatcherRepository(ApplicationDbContext context) : base(context)
         {

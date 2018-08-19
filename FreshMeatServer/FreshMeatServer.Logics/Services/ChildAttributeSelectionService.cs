@@ -7,7 +7,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class ChildAttributeSelectionService : EntityBaseService<ChildAttributeSelection>, IChildAttributeSelectionService
+    public class ChildAttributeSelectionService : EntityBaseService<ChildAttributeSelection>, IChildAttributeSelectionService
     {
         public ChildAttributeSelectionService(IValidator<ChildAttributeSelection> validator, IChildAttributeSelectionRepository repo) : base(validator, repo)
         {

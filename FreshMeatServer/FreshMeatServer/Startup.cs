@@ -19,6 +19,10 @@ using FreshMeatServer.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FreshMeatServer.Logics;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using FreshMeatServer.Logics.Validators;
 
 namespace FreshMeatServer
 {
@@ -94,10 +98,46 @@ namespace FreshMeatServer
 
 
             services.AddCors();
+
+            // Add application Repositories.
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<IChildAttributeRepository, ChildAttributeRepository>();
+            services.AddScoped<IChildAttributeSelectionRepository, ChildAttributeSelectionRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IMasterRepository, MasterRepository>();
+            services.AddScoped<IMatchRepository, MatchRepository>();
+            services.AddScoped<IMatcherRepository, MatcherRepository>();
+            services.AddScoped<IParentAttributeRepository, ParentAttributeRepository>();
+            services.AddScoped<IParentAttributeSelectionRepository, ParentAttributeSelectionRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
+            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<IChildAttributeService, ChildAttributeService>();
+            services.AddScoped<IChildAttributeSelectionService, ChildAttributeSelectionService>();
+            services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IMasterService, MasterService>();
+            services.AddScoped<IMatchService, MatchService>();
+            services.AddScoped<IMatcherService, MatcherService>();
+            services.AddScoped<IParentAttributeService, ParentAttributeService>();
+            services.AddScoped<IParentAttributeSelectionService, ParentAttributeSelectionService>();
+            services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IStatusService, StatusService>();
+
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver
+                        = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+                })
+                .AddFluentValidation();
+            var assembly = AssemblyScanner.FindValidatorsInAssemblyContaining<CharacterValidator>();
+            assembly.ForEach(a => services.AddTransient(a.InterfaceType, a.ValidatorType));
             services.AddAutoMapper(map => { map.AddProfile<FreshMeatServerMappings>(); });
         }
 
@@ -114,7 +154,7 @@ namespace FreshMeatServer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();

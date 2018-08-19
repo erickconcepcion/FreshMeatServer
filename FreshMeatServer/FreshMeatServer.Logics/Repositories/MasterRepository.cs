@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class MasterRepository : EntityBaseRepository<Master>, IMasterRepository
+    public class MasterRepository : EntityBaseRepository<Master>, IMasterRepository
     {
         public MasterRepository(ApplicationDbContext context) : base(context)
         {

@@ -6,40 +6,40 @@ using System.Text;
 
 namespace FreshMeatServer.Logics
 {
-    interface ICharacterService: IEntityBaseService<Character>
+    public interface ICharacterService : IEntityBaseService<Character>
     {
     }
-    interface IChildAttributeService : IEntityBaseService<ChildAttribute>
+    public interface IChildAttributeService : IEntityBaseService<ChildAttribute>
     {
     }
-    interface IChildAttributeSelectionService : IEntityBaseService<ChildAttributeSelection>
+    public interface IChildAttributeSelectionService : IEntityBaseService<ChildAttributeSelection>
     {
     }
-    interface IInventoryService : IEntityBaseService<Inventory>
+    public interface IInventoryService : IEntityBaseService<Inventory>
     {
     }
-    interface IItemService : IEntityBaseService<Item>
+    public interface IItemService : IEntityBaseService<Item>
     {
     }
-    interface IMasterService : IEntityBaseService<Master>
+    public interface IMasterService : IEntityBaseService<Master>
     {
     }
-    interface IMatchService : IEntityBaseService<Match>
+    public interface IMatchService : IEntityBaseService<Match>
     {
     }
-    interface IMatcherService : IEntityBaseService<Matcher>
+    public interface IMatcherService : IEntityBaseService<Matcher>
     {
     }
-    interface IParentAttributeService : IEntityBaseService<ParentAttribute>
+    public interface IParentAttributeService : IEntityBaseService<ParentAttribute>
     {
     }
-    interface IParentAttributeSelectionService : IEntityBaseService<ParentAttributeSelection>
+    public interface IParentAttributeSelectionService : IEntityBaseService<ParentAttributeSelection>
     {
     }
-    interface IPlayerService : IEntityBaseService<Player>
+    public interface IPlayerService : IEntityBaseService<Player>
     {
     }
-    interface IStatusService : IEntityBaseService<Status>
+    public interface IStatusService : IEntityBaseService<Status>
     {
     }
 }

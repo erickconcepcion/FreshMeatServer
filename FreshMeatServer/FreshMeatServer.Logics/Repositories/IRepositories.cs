@@ -6,40 +6,40 @@ using System.Text;
 
 namespace FreshMeatServer.Logics
 {
-    interface ICharacterRepository: IEntityBaseRepository<Character>
+    public interface ICharacterRepository : IEntityBaseRepository<Character>
     {
     }
-    interface IChildAttributeRepository : IEntityBaseRepository<ChildAttribute>
+    public interface IChildAttributeRepository : IEntityBaseRepository<ChildAttribute>
     {
     }
-    interface IChildAttributeSelectionRepository : IEntityBaseRepository<ChildAttributeSelection>
+    public interface IChildAttributeSelectionRepository : IEntityBaseRepository<ChildAttributeSelection>
     {
     }
-    interface IInventoryRepository : IEntityBaseRepository<Inventory>
+    public interface IInventoryRepository : IEntityBaseRepository<Inventory>
     {
     }
-    interface IItemRepository : IEntityBaseRepository<Item>
+    public interface IItemRepository : IEntityBaseRepository<Item>
     {
     }
-    interface IMasterRepository : IEntityBaseRepository<Master>
+    public interface IMasterRepository : IEntityBaseRepository<Master>
     {
     }
-    interface IMatchRepository : IEntityBaseRepository<Match>
+    public interface IMatchRepository : IEntityBaseRepository<Match>
     {
     }
-    interface IMatcherRepository : IEntityBaseRepository<Matcher>
+    public interface IMatcherRepository : IEntityBaseRepository<Matcher>
     {
     }
-    interface IParentAttributeRepository : IEntityBaseRepository<ParentAttribute>
+    public interface IParentAttributeRepository : IEntityBaseRepository<ParentAttribute>
     {
     }
-    interface IParentAttributeSelectionRepository : IEntityBaseRepository<ParentAttributeSelection>
+    public interface IParentAttributeSelectionRepository : IEntityBaseRepository<ParentAttributeSelection>
     {
     }
-    interface IPlayerRepository : IEntityBaseRepository<Player>
+    public interface IPlayerRepository : IEntityBaseRepository<Player>
     {
     }
-    interface IStatusRepository : IEntityBaseRepository<Status>
+    public interface IStatusRepository : IEntityBaseRepository<Status>
     {
     }
 }

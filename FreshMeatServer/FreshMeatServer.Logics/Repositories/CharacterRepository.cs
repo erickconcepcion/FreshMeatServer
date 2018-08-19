@@ -6,7 +6,7 @@ using FreshMeatServer.DataModel;
 
 namespace FreshMeatServer.Logics
 {
-    class CharacterRepository: EntityBaseRepository<Character>, ICharacterRepository
+    public class CharacterRepository : EntityBaseRepository<Character>, ICharacterRepository
     {
         public CharacterRepository(ApplicationDbContext context): base(context)
         {
