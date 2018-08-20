@@ -8,6 +8,8 @@ namespace FreshMeatServer.Common
     {
         Lobby = 1,
         Playing,
+        Paused,
+        Aborted,
         Finished
     }
 }

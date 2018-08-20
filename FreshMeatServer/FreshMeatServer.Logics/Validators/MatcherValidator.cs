@@ -16,7 +16,7 @@ namespace FreshMeatServer.Logics.Validators
 
             RuleFor(p => (int)p.Status)
                 .GreaterThanOrEqualTo((int)MatcherStatus.Waitting)
-                .LessThanOrEqualTo((int)MatcherStatus.Left);
+                .LessThanOrEqualTo((int)MatcherStatus.Complete);
 
             RuleFor(p => p.CharacterId)
                 .NotEmpty();

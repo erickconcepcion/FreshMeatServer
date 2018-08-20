@@ -9,6 +9,7 @@ namespace FreshMeatServer.Common
         Waitting=1,
         Ready,
         Playing,
-        Left
+        Left,
+        Complete
     }
 }
