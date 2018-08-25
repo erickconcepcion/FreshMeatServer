@@ -23,6 +23,7 @@ using FreshMeatServer.Logics;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using FreshMeatServer.Logics.Validators;
+using FreshMeatServer.Hubs;
 
 namespace FreshMeatServer
 {
@@ -139,6 +140,7 @@ namespace FreshMeatServer
             var assembly = AssemblyScanner.FindValidatorsInAssemblyContaining<CharacterValidator>();
             assembly.ForEach(a => services.AddTransient(a.InterfaceType, a.ValidatorType));
             services.AddAutoMapper(map => { map.AddProfile<FreshMeatServerMappings>(); });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -158,6 +160,11 @@ namespace FreshMeatServer
             app.UseStaticFiles();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<LobbyHub>("/lobbyHub");
+                routes.MapHub<MatchHub>("/matchHub");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
