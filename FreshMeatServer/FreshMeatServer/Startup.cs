@@ -24,6 +24,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using FreshMeatServer.Logics.Validators;
 using FreshMeatServer.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FreshMeatServer
 {
@@ -88,6 +89,7 @@ namespace FreshMeatServer
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+                configureOptions.Events = new SignalrJwtBearerEvents();
             });
 
             // api user claim policy
@@ -129,6 +131,8 @@ namespace FreshMeatServer
             services.AddScoped<IParentAttributeSelectionService, ParentAttributeSelectionService>();
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IStatusService, StatusService>();
+            
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             services.AddMvc()
                 .AddJsonOptions(options =>
@@ -162,8 +166,8 @@ namespace FreshMeatServer
             app.UseAuthentication();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<LobbyHub>("/lobbyHub");
-                routes.MapHub<MatchHub>("/matchHub");
+                routes.MapHub<LobbyHub>("/hubs/lobbyHub");
+                routes.MapHub<MatchHub>("/hubs/matchHub");
             });
             app.UseMvc(routes =>
             {

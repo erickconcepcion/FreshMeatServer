@@ -8,12 +8,13 @@ namespace FreshMeatServer.Logics.Services
 {
     public interface ILobbyService
     {
-        EntityActionResult InvitePlayer(string username);
-        EntityActionResult QuitPlayer(string username);
-        EntityActionResult SelectCharacter(Character character);
+        EntityActionResult InvitePlayer(Guid playerId, Guid matchId);
+        EntityActionResult QuitPlayer(Guid matcherId);
+        EntityActionResult SelectCharacter(Guid characterId, Guid matcherId);
         EntityActionResult StartMatch(Guid matchId);
-        EntityActionResult AceptInvitation(string username);
-        EntityActionResult DismisInvitation(string username);
+        EntityActionResult AceptInvitation(Guid matchRequestId);
+        EntityActionResult DismisInvitation(Guid matchRequestId);
+        EntityActionResult GetReady(Matcher matcher);
 
     }
 }

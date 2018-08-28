@@ -9,6 +9,11 @@
     <Compile Remove="Migrations\20180715180437_initial.cs" />
     <Compile Remove="Migrations\20180715203412_initial.cs" />
     <Compile Remove="Migrations\20180715203948_initial.cs" />
+    <Compile Remove="Migrations\20180827012640_AddMatchRequest.cs" />
+    <Compile Remove="Migrations\20180827012849_AddMatchRequest.cs" />
+    <Compile Remove="Migrations\20180827013444_AddMatchRequest.cs" />
+    <Compile Remove="Migrations\20180827015549_AddMatchRequest.cs" />
+    <Compile Remove="Migrations\20180827020536_AddMatchRequest.cs" />
   </ItemGroup>
 
   <ItemGroup>

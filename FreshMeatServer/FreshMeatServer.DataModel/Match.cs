@@ -13,6 +13,7 @@ namespace FreshMeatServer.DataModel
         public Match()
         {
             Matchers = new HashSet<Matcher>();
+            MatchRequests = new HashSet<MatchRequest>();
         }
         [Key]
         public Guid Id { get; set; }
@@ -22,5 +23,6 @@ namespace FreshMeatServer.DataModel
         public Master Master { get; set; }
 
         public ICollection<Matcher> Matchers { get; set; }
+        public ICollection<MatchRequest> MatchRequests { get; set; }
     }
 }

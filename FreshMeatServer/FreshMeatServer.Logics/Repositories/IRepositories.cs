@@ -42,4 +42,7 @@ namespace FreshMeatServer.Logics
     public interface IStatusRepository : IEntityBaseRepository<Status>
     {
     }
+    public interface IMatchRequestRepository : IEntityBaseRepository<MatchRequest>
+    {
+    }
 }

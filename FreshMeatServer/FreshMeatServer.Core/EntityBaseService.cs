@@ -110,5 +110,25 @@ namespace FreshMeatServer.Core
         public virtual void DeleteRange(IEnumerable<T> entities) => Repository.DeleteRange(entities);
 
         public virtual bool Save() => Repository.Save();
+
+        public virtual IEnumerable<EntityActionResult> ValidateRange(IEnumerable<T> entities)
+        {
+            List<EntityActionResult> results = new List<EntityActionResult>();
+            foreach (var entity in entities)
+            {
+                var result = Validator.Validate(entity);
+                if (result.IsValid)
+                {
+                    Repository.Add(entity);
+                    results.Add(new EntityActionResult() { ErrorCode = 0, Success = true, Id = entity.Id });
+                }
+                else
+                {
+                    var errosMsg = result.Errors.Select(e => e.ErrorMessage);
+                    results.Add(new EntityActionResult() { ErrorCode = 500, Success = false, Messages = errosMsg });
+                }                
+            }
+            return results;
+        }
     }
 }

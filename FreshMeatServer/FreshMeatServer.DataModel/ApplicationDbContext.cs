@@ -26,6 +26,7 @@ namespace FreshMeatServer.DataModel
         public DbSet<ParentAttributeSelection> ParentAttributeSelections { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<MatchRequest> MatchRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -57,6 +58,8 @@ namespace FreshMeatServer.DataModel
             builder.Entity<Player>().Property(prop => prop.Id)
                 .ValueGeneratedOnAdd();
             builder.Entity<Status>().Property(prop => prop.Id)
+                .ValueGeneratedOnAdd();
+            builder.Entity<MatchRequest>().Property(prop => prop.Id)
                 .ValueGeneratedOnAdd();
 
             //unique user
@@ -144,6 +147,13 @@ namespace FreshMeatServer.DataModel
             builder.Entity<Player>()
                 .HasMany(prop => prop.Characters)
                 .WithOne(prop => prop.Player).OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MatchRequest>()
+                .HasOne(prop => prop.Match)
+                .WithMany(prop=>prop.MatchRequests).OnDelete(DeleteBehavior.ClientSetNull);
+            builder.Entity<MatchRequest>()
+                .HasOne(prop => prop.Player)
+                .WithMany(prop => prop.MatchRequests).OnDelete(DeleteBehavior.ClientSetNull);
 
         }
     }

@@ -32,5 +32,6 @@ namespace FreshMeatServer.Core
         void Delete(T entity);
         void DeleteRange(IEnumerable<T> entities);
         bool Save();
+        IEnumerable<EntityActionResult> ValidateRange(IEnumerable<T> entities);
     }
 }
